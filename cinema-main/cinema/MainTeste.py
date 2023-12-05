@@ -11,8 +11,8 @@ from Cliente import Cliente
 from classes import Sessão
 from classes import Filme
 from classes import Genero
-
 import sys
+
 cliente = ClienteDAO()
 lista_clientes = cliente.inicia()
 filme = FilmeDAO()
@@ -38,12 +38,14 @@ def verificar(resposta):
     elif resposta == "S":
         return True
     else:
-        #print("Por favo, retorne uma saída válida(S/N): ")
-        resposta = input("Por favo, retorne uma saída válida(S/N): ")
+        resposta = input("Por favor, retorne uma saída válida (S/N): ")
         verificar(resposta)
 
+
 def menu():
-    r = input("MENU 1 2 3 4: ")
+    print('')
+    print("-----------------------------MENU-----------------------------")
+    r = int(input("1 (Login), 2 (Cadastro), 3 (Mudar Senha), 4 (Finalizar): "))
     if r == 1:
         email = input("E-mail: ")
         senha = input("Senha: ")
@@ -56,21 +58,20 @@ def menu():
         mudarSenha()
         #Volta pro menu
 
-
 #Funções para o menu
 #VERSION PEDRO MODIFICADA
 def login(email, senha):
     for i in lista_clientes:
         if email == i.emails and senha == i.senhas:
-            print("login realizado!")
+            print("Login realizado!")
             usuario = Cliente(i.Id, i.nome, i.emails, i.senhas, i.sobrenomes, i.idades)
             telaprincipal()
 
     print("Usuário não encontrado, tente novamente!")
-    r = input("Você deseja tentar novamente(S) ou sair?(N)")
+    r = input("Você deseja tentar novamente (S) ou sair (N)?")
     r = verificar(r)
     if r == True:
-        print("login ou senha incorretos, tente novamente")
+        print("Login ou Senha incorretos, tente novamente")
         email = input("E-mail: ")
         senha = input("Senha: ")
         login(email,senha)
@@ -81,44 +82,49 @@ def confirmarSenhasIguais(senha, senConfirmar):
     if senha == senConfirmar:
         return senha
     else:
-        print("Novamente...")
+        print("Tentne Novamente...")
         senha = input("Sua senha: ")
         senConfirmar = input("Confirma senha: ")
         confirmarSenhasIguais(senha, senConfirmar)
 
 
 def cadastrarCliente():
-    print("Menu cadastrar:")
-    nome = input("Primeiro nome: ")
-    sobrenome = input("Sobrenome completo: ")
-    email = input("Seu email: ")
+    print("Tela de Cadastro:")
+    nome = input("Primeiro Nome: ")
+    sobrenome = input("Sobrenome Completo: ")
+    email = input("Seu E-mail: ")
     idade = int(input("Sua idade: "))
     senha = input("Sua senha: ")
     senhaConfirmar = input("Confirme sua senha: ")
     senha = confirmarSenhasIguais(senha, senhaConfirmar)
+    print(senha)
 
     ClienteDAO.inserir_cliente(nome, email, senha, sobrenome, idade)
     menu()
 
+
+
 def mudarSenha():
-    print("Recupere senha ")
-    id    = int(input("Seu ID de usuário: "))
-    senha = input("Senha nova: ")
-    senhaConfirmar = input("Confirmar senha: ")
+    print("Recuperar senha ")
+    id    = int(input("Seu ID de Usuário: "))
+    senha = input("Nova Senha: ")
+    senhaConfirmar = input("Confirmar Senha: ")
     senha = confirmarSenhasIguais(senha, senhaConfirmar)
     ClienteDAO.mudar_senha(id, senha)
     menu()
 
 def telaprincipal():
-    print("Bem-Vindo ao menu principal!")
+    print("Seja Bem-Vindo ao Menu Principal!" )
     # Printar lista de filmes com todas as sessões disponiveis
-    r = int(input("Escolha o que você quer fazer/ver 1/2/3/4"))
+    print('')
+    print("------------------------------ Escolha o que você deseja fazer: ------------------------------")
+    r = int(input(" 1 (Escolher Filme), 2 (Procurar Filme Por Gênero), 3 (Ver Seus Ingressos), 4 (Sair)"))
     #1 escolher filme
     if r == 1:
         escolherFilme()
     #2 Procurar por genero
     elif r == 2:
-        filme = input("Esse filme tem esses generos: ")
+        filme = input("Esse filme o seguinte Gênero: ")
         retornarGenerosDoFilme(filme)
     #3 ver ingressos
     elif r == 3:
@@ -137,19 +143,20 @@ def comprarIngresso(pessoa, sessao):
 
     IngressoDAO().inserir_ingresso(valorIngresso, user, sessao)
     SessaoDAO().alterar_capacidade(lotacao, sessao)
+    
 
 def procurarFilme(nomeFilme):
     for f in lista_filmes:
         if nomeFilme == f.titulo:
-            r = input("Esse filme existe, deseja comprar(S/N): ")
+            r = input("Esse filme está disponível, deseja comprar o ingresso (S/N)? : ")
             if verificar(r):
-                comprarIngresso()#comprar ingresso
+                comprarIngresso()
                 print("Compra efetuada com sucesso!!")
                 telaprincipal()
             else:
                 print("Ok, retornando a tela principal!")
                 telaprincipal()
-    print("Lamento, filme não encontrado, deseja procurar outro ou retorna(S) ao menu principal(N)?")
+    print("Lamento, filme não encontrado. Deseja procurar outro (S) ou retornar ao Menu principal (N)?")
 
             #falta gets and sets na classe titulo
 
@@ -158,22 +165,23 @@ def procurarSessaocomHorario(horario):
         if horario == s.horario:
             sessao = Sessão(s.sessao_Id, s.capacidade, s.horario)
             return sessao
-    print("Nenhum sessão encontrada, tente novamente ou saia")
+    print("Nenhuma sessão encontrada, tente novamente ou volte ao Menu")
     sessaoHorario = int(input())
     procurarSessaocomHorario(sessaoHorario)
 
 def escolherFilme():
-    print("Escolha o filme com sessão e quantos assentos: ")
+    print('')
+    print("--------Escolha o filme com sessão e quantos assentos deseja:-------- ")
     escolhafilme = input("Seu filme: ")
     #ajeitar procurarFilmes e adicionar entidade filme
     #procurarFilme
-    sessao = input("Horário de sua sessão: ")
+    sessao = input("Horário da sua sessão: ")
     #ajeitar e criar entidade sessao
     #procurarSessaocomHorario()
-    qtdIngressos = input("Quantidade de ingresso:")
+    qtdIngressos = input("Quantidade de ingressos:")
     valorTotal = qtdIngressos * 12
     metodoPagamento()
-    print("Ótima compra! E bom filme.")
+    print("Ótima compra e aproveite o filme!!")
     telaprincipal()
 
 def retornarGenerosDoFilme(filme):
@@ -215,25 +223,12 @@ def metodoPagamento():
         input("Nome no cartão: ")
         input("Número do cartão: ")
     elif(r == 2):
-        print("Boa compra!!")
+        print("Compra Efetuada!")
     else:
         print("Digitação errada, escolha novamente.")
         metodoPagamento()
 
 
-
-Gatilho = True
-while Gatilho:
-    print("Tela de boa vindas")
-    #Perguntar qual opção
-    r = input("Ir para Menu(S)? Ou deslogar(N)").upper()
-    r = verificar(r)
-    if r == True:
-        menu()
-    else:
-        print("Tchau, foi um prazer hihihi")
-        Gatilho = False
-#lista filmes sessões e salas
 def lista_filmes_cartaz():
     lista_cartaz = []
     for i in lista_filmes:
@@ -246,4 +241,14 @@ def lista_filmes_cartaz():
 
 
 
-
+Gatilho = True
+while Gatilho:
+    print("Bem-Vindo!")
+    #Perguntar qual opção
+    r = input("Deseja ir para Menu(S) ou Deslogar(N)?").upper()
+    r = verificar(r)
+    if r == True:
+        menu()
+    else:
+        print("Até logo, foi um prazer! :)")
+        Gatilho = False

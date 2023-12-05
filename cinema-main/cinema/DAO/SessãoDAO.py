@@ -33,3 +33,10 @@ class SessaoDAO:
         c.conn.commit()
         c.conn.close()
         print("sessão deletada!")
+    
+    def alterar_capacidade(self, capacidade, ID):
+        c = conexao()
+        sql = "UPDATE Sessao SET Capacidade = ? WHERE Filme_ID = ?"
+        cursor = c.conn.execute(sql,(capacidade, ID,))
+        c.conn.commit()
+        c.conn.close()
