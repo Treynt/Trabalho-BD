@@ -126,12 +126,10 @@ def telaprincipal():
         menu()
     #deslogar que é voltar para o menu principal
 
-def associacaoUserFilme(usuario, sessao, titulo_filme):
+def comprarIngresso(usuario, sessao):
     valorIngresso = 25
     usuario = Cliente.id
     sessao = Sessão.Id
-    titulo_filme = Filme.titulo
-  
 
     IngressoDAO().inserir_ingresso(valorIngresso, usuario, sessao)
 
@@ -140,7 +138,7 @@ def procurarFilme(nomeFilme):
         if nomeFilme == f.titulo:
             r = input("Esse filme existe, deseja comprar(S/N): ")
             if verificar(r):
-                #comprar ingresso
+                comprarIngresso()#comprar ingresso
                 print("Compra efetuada com sucesso!!")
                 telaprincipal()
             else:
