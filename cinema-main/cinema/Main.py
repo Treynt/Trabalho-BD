@@ -126,7 +126,7 @@ def telaprincipal():
         menu()
     #deslogar que é voltar para o menu principal
 
-def comprarIngresso(usuario, sessao):
+def comprarIngresso():
     valorIngresso = 25
     usuario = Cliente.id
     sessao = Sessão.Id
