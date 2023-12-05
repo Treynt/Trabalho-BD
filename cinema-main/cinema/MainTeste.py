@@ -45,7 +45,7 @@ def verificar(resposta):
 def menu():
     print('')
     print("-----------------------------MENU-----------------------------")
-    r = int(input("1 (Login), 2 (Cadastro), 3 (Mudar Senha), 4 (Finalizar): "))
+    r = int(input("1 (Login), 2 (Cadastro), 3 (Mudar Senha), 4 (Finalizar) \n Opção:"))
     if r == 1:
         email = input("E-mail: ")
         senha = input("Senha: ")
@@ -68,7 +68,7 @@ def login(email, senha):
             telaprincipal()
 
     print("Usuário não encontrado, tente novamente!")
-    r = input("Você deseja tentar novamente (S) ou sair (N)?")
+    r = input("Você deseja tentar novamente (S) ou sair (N)? ")
     r = verificar(r)
     if r == True:
         print("Login ou Senha incorretos, tente novamente")
@@ -93,24 +93,22 @@ def cadastrarCliente():
     nome = input("Primeiro Nome: ")
     sobrenome = input("Sobrenome Completo: ")
     email = input("Seu E-mail: ")
-    idade = int(input("Sua idade: "))
+    idade = input("Sua idade: ")
     senha = input("Sua senha: ")
     senhaConfirmar = input("Confirme sua senha: ")
     senha = confirmarSenhasIguais(senha, senhaConfirmar)
-    print(senha)
-
+    idade = int(idade)
     ClienteDAO.inserir_cliente(nome, email, senha, sobrenome, idade)
     menu()
 
 
-
 def mudarSenha():
-    print("Recuperar senha ")
-    id    = int(input("Seu ID de Usuário: "))
+    print("Recuperar senha")
+    email = input("Seu E-mail de Usuário: ")
     senha = input("Nova Senha: ")
     senhaConfirmar = input("Confirmar Senha: ")
     senha = confirmarSenhasIguais(senha, senhaConfirmar)
-    ClienteDAO.mudar_senha(id, senha)
+    ClienteDAO.mudar_senha(senha, email)
     menu()
 
 def telaprincipal():
@@ -118,13 +116,13 @@ def telaprincipal():
     # Printar lista de filmes com todas as sessões disponiveis
     print('')
     print("------------------------------ Escolha o que você deseja fazer: ------------------------------")
-    r = int(input(" 1 (Escolher Filme), 2 (Procurar Filme Por Gênero), 3 (Ver Seus Ingressos), 4 (Sair)"))
+    r = int(input(" 1 (Escolher Filme), 2 (Procurar Filme Por Gênero), 3 (Ver Seus Ingressos), 4 (Sair)\n Opção:"))
     #1 escolher filme
     if r == 1:
         escolherFilme()
     #2 Procurar por genero
     elif r == 2:
-        filme = input("Esse filme o seguinte Gênero: ")
+        filme = input("Qual o gênero de filme deseja?: ")
         retornarGenerosDoFilme(filme)
     #3 ver ingressos
     elif r == 3:
@@ -218,7 +216,7 @@ def generosDeFilme(genero):
 
 
 def metodoPagamento():
-    r = input("Debito 1 - NaCaixa 2")
+    r = int(input("Debito 1 - NaCaixa 2"))
     if(r == 1):
         input("Nome no cartão: ")
         input("Número do cartão: ")

@@ -243,7 +243,3 @@ def lista_filmes_cartaz():
                     if f.Id_sala == j.cod_sala:
                         lista_cartaz.append("Filme: "+i.titulo +" Horario: "+f.horario+" Cadeiras Disponiveis: "+ str(f.capacidade)+" Sala:"+j.nome_sala )
     return lista_cartaz
-
-
-
-

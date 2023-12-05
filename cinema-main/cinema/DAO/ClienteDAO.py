@@ -33,10 +33,10 @@ class ClienteDAO:
         c.conn.close()
         print("cliente deletado!")
 
-    def mudar_senha(self, nova_senha, ID):
+    def mudar_senha(self, nova_senha, novo_email):
         c = conexao()
-        sql = "UPDATE Cliente SET senhas = ? WHERE pessoa_ID = ?"
-        cursor = c.conn.execute(sql,(nova_senha, ID))
+        sql = "UPDATE Cliente SET senhas = ? WHERE emails = ?"
+        cursor = c.conn.execute(sql,(nova_senha, novo_email))
         c.conn.commit()
         print("senha alterada!")
         
