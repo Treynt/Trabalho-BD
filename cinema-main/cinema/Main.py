@@ -126,7 +126,14 @@ def telaprincipal():
         menu()
     #deslogar que é voltar para o menu principal
 
-def 
+def associacaoUserFilme(usuario, sessao, titulo_filme):
+    valorIngresso = 25
+    usuario = Cliente.id
+    sessao = Sessão.Id
+    titulo_filme = Filme.titulo
+  
+
+    IngressoDAO().inserir_ingresso(valorIngresso, usuario, sessao)
 
 def procurarFilme(nomeFilme):
     for f in lista_filmes:
