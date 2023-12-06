@@ -30,7 +30,6 @@ lista_relaçoes = relacao.inicia()
 sala = SalaDAO()
 lista_salas = sala.inicia()
 
-usuario = 0
 
 def verificar(resposta):
     if resposta == "N":
@@ -49,17 +48,14 @@ def menu():
     if r == 1:
         email = input("E-mail: ")
         senha = input("Senha: ")
-        login(email, senha)
-        #Vai pra tela principal
+        user = login(email, senha)    
     elif r == 2:
-        cadastrarCliente()
-        #volta Pro menu
+        cadastrarCliente()  
     elif r == 3:
         mudarSenha()
-        #Volta pro menu
+       
 
-#Funções para o menu
-#VERSION PEDRO MODIFICADA
+
 def login(email, senha):
     for i in lista_clientes:
         if email == i.emails and senha == i.senhas:
@@ -77,6 +73,7 @@ def login(email, senha):
         login(email,senha)
     else:
         menu()
+
 
 def confirmarSenhasIguais(senha, senConfirmar):
     if senha == senConfirmar:
@@ -112,11 +109,11 @@ def mudarSenha():
     menu()
 
 def apagarCliente():
-    r = input("Bem vindo, você tem certeza dessa decisão?: ").upper()
+    r = input("Bem vindo, você tem certeza dessa decisão, (S) ou sair (N)?: ").upper()
     if verificar(r):
         print("Lamentamos muitos por essa decisão, iremos melhorar. VOLTE SEMPRE SEU FELA DA PUTA")
         email = input("E-mail da conta deletada:")
-        ClienteDAO.deletar_cliente(email)
+        cliente.deletar_cliente(email)
         telaprincipal()
     else:
         print("Obrigado pela decisão <3")
@@ -125,37 +122,57 @@ def apagarCliente():
 
 def telaprincipal():
     print("Seja Bem-Vindo ao Menu Principal!" )
-    # Printar lista de filmes com todas as sessões disponiveis
+   
     print('')
     print("------------------------------ Escolha o que você deseja fazer: ------------------------------")
-    r = int(input(" 1 (Escolher Filme), 2 (Procurar Filme Por Gênero), 3 (Ver Seus Ingressos), 4 (Deletar conta), 5 (Sair)\n Opção:"))
-    #1 escolher filme
+    r = int(input(" 1 (Escolher Filme), 2 (Procurar Filme Por Gênero), 3 (Lista de Filmes), 4 (Ver Seus Ingressos), 5 (Deletar conta), 6 (Sair)\n Opção:"))
+   
     if r == 1:
         escolherFilme()
-    #2 Procurar por genero
+   
     elif r == 2:
         filme = input("Qual o gênero de filme deseja?: ")
         retornarGenerosDoFilme(filme)
-    #3 ver ingressos
     elif r == 3:
-        print("Falta adicionar ver ingressos")
+        lista = lista_filmes_cartaz()
+        for i in lista:
+            print(i)
         telaprincipal()
     elif r == 4:
-        apagarCliente()
+        print("Falta adicionar ver ingressos")
+        telaprincipal()
     elif r == 5:
+        apagarCliente()
+    elif r == 6:
         menu()
-    #deslogar que é voltar para o menu principal
 
-def comprarIngresso(pessoa, sessao):
+
+
+def comprarIngresso(sessao):
     valorIngresso = 25
     capacidadeSala = 20
     lotacao = capacidadeSala - 1
-    user = pessoa.Id
+    user = confirmarCompra()
     sessao = sessao.sessao_Id
 
 
-    IngressoDAO().inserir_ingresso(valorIngresso, user, sessao)
-    SessaoDAO().alterar_capacidade(lotacao, sessao)
+    ingresso.inserir_ingresso(valorIngresso, user, sessao)
+    sessao.alterar_capacidade(lotacao, sessao)
+
+def confirmarCompra():
+    email = input("EMAIL: ")
+    senha = input("Senha: ")
+    for i in lista_clientes:
+        if email == i.emails and senha == i.senhas:
+            print("Confirmado!")
+            user = Cliente(i.Id, i.nome, i.emails, i.senhas, i.sobrenomes, i.idades)
+            return user
+    r = input("Dados errados, insira novamente(S) ou sair(N)").upper()
+    if verificar(r):
+        print("Insira novamente!")
+        confirmarCompra()
+    else:
+        telaprincipal()
     
 
 def procurarFilme(nomeFilme):
@@ -163,7 +180,7 @@ def procurarFilme(nomeFilme):
         if nomeFilme == f.titulo:
             r = input("Esse filme está disponível, deseja comprar o ingresso (S/N)? : ")
             if verificar(r):
-                comprarIngresso(usuario, sessao)
+                comprarIngresso(sessao)
                 print("Compra efetuada com sucesso!!")
                 telaprincipal()
             else:
@@ -171,7 +188,6 @@ def procurarFilme(nomeFilme):
                 telaprincipal()
     print("Lamento, filme não encontrado. Deseja procurar outro (S) ou retornar ao Menu principal (N)?")
 
-            #falta gets and sets na classe titulo
 
 def procurarSessaocomHorario(horario):
     for s in lista_sessoes:
@@ -186,16 +202,12 @@ def escolherFilme():
     print('')
     print("--------Escolha o filme com sessão e quantos assentos deseja:-------- ")
     escolhafilme = input("Seu filme: ")
-    #ajeitar procurarFilmes e adicionar entidade filme
-    #procurarFilme
     sessao = input("Horário da sua sessão: ")
-    #ajeitar e criar entidade sessao
-    #procurarSessaocomHorario()
     qtdIngressos = input("Quantidade de ingressos:")
     valorTotal = qtdIngressos * 12
     metodoPagamento()
     print("Ótima compra e aproveite o filme!!")
-    comprarIngresso(usuario, sessao)
+    comprarIngresso(sessao)
     telaprincipal()
 
 def retornarGenerosDoFilme(filme):
@@ -258,7 +270,6 @@ def lista_filmes_cartaz():
 Gatilho = True
 while Gatilho:
     print("Bem-Vindo!")
-    #Perguntar qual opção
     r = input("Deseja ir para Menu(S) ou Deslogar(N)?").upper()
     r = verificar(r)
     if r == True:

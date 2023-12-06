@@ -28,7 +28,7 @@ class ClienteDAO:
     def deletar_cliente(self,email):
         c = conexao()
         sql = "DELETE FROM Cliente WHERE emails = ?"
-        cursor = c.conn.execute(sql, (email))
+        cursor = c.conn.execute(sql, (email,))
         c.conn.commit()
         c.conn.close()
         print("cliente deletado!")
