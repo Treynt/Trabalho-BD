@@ -25,10 +25,10 @@ class ClienteDAO:
         c.conn.close()
         print("usuario inserido com sucesso!")
 
-    def deletar_cliente(self,ID):
+    def deletar_cliente(self,email):
         c = conexao()
-        sql = "DELETE FROM Cliente WHERE pessoa_ID = ?"
-        cursor = c.conn.execute(sql, (ID,))
+        sql = "DELETE FROM Cliente WHERE emails = ?"
+        cursor = c.conn.execute(sql, (email))
         c.conn.commit()
         c.conn.close()
         print("cliente deletado!")

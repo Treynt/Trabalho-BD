@@ -111,12 +111,24 @@ def mudarSenha():
     cliente.mudar_senha(senha, email)
     menu()
 
+def apagarCliente():
+    r = input("Bem vindo, você tem certeza dessa decisão?: ").upper()
+    if verificar(r):
+        print("Lamentamos muitos por essa decisão, iremos melhorar. VOLTE SEMPRE SEU FELA DA PUTA")
+        email = input("E-mail da conta deletada:")
+        ClienteDAO.deletar_cliente(email)
+        telaprincipal()
+    else:
+        print("Obrigado pela decisão <3")
+        menu()
+
+
 def telaprincipal():
     print("Seja Bem-Vindo ao Menu Principal!" )
     # Printar lista de filmes com todas as sessões disponiveis
     print('')
     print("------------------------------ Escolha o que você deseja fazer: ------------------------------")
-    r = int(input(" 1 (Escolher Filme), 2 (Procurar Filme Por Gênero), 3 (Ver Seus Ingressos), 4 (Sair)\n Opção:"))
+    r = int(input(" 1 (Escolher Filme), 2 (Procurar Filme Por Gênero), 3 (Ver Seus Ingressos), 4 (Deletar conta), 5 (Sair)\n Opção:"))
     #1 escolher filme
     if r == 1:
         escolherFilme()
@@ -129,6 +141,8 @@ def telaprincipal():
         print("Falta adicionar ver ingressos")
         telaprincipal()
     elif r == 4:
+        apagarCliente()
+    elif r == 5:
         menu()
     #deslogar que é voltar para o menu principal
 
@@ -149,7 +163,7 @@ def procurarFilme(nomeFilme):
         if nomeFilme == f.titulo:
             r = input("Esse filme está disponível, deseja comprar o ingresso (S/N)? : ")
             if verificar(r):
-                comprarIngresso()
+                comprarIngresso(usuario, sessao)
                 print("Compra efetuada com sucesso!!")
                 telaprincipal()
             else:
@@ -181,6 +195,7 @@ def escolherFilme():
     valorTotal = qtdIngressos * 12
     metodoPagamento()
     print("Ótima compra e aproveite o filme!!")
+    comprarIngresso(usuario, sessao)
     telaprincipal()
 
 def retornarGenerosDoFilme(filme):
@@ -217,7 +232,7 @@ def generosDeFilme(genero):
 
 
 def metodoPagamento():
-    r = int(input("Debito 1 - NaCaixa 2"))
+    r = int(input("Debito 1 - Crédito 2 \n"))
     if(r == 1):
         input("Nome no cartão: ")
         input("Número do cartão: ")
