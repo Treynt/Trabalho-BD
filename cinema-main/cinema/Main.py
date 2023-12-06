@@ -111,7 +111,7 @@ def mudarSenha():
 def apagarCliente():
     r = input("Bem vindo, você tem certeza dessa decisão, (S) ou sair (N)?: ").upper()
     if verificar(r):
-        print("Lamentamos muitos por essa decisão, iremos melhorar. VOLTE SEMPRE SEU FELA DA PUTA")
+        print("Lamentamos muitos por essa decisão, iremos melhorar.")
         email = input("E-mail da conta deletada:")
         cliente.deletar_cliente(email)
         telaprincipal()
