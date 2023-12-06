@@ -68,7 +68,7 @@ def login(email, senha):
             telaprincipal()
 
     print("Usuário não encontrado, tente novamente!")
-    r = input("Você deseja tentar novamente (S) ou sair (N)? ")
+    r = input("Você deseja tentar novamente (S) ou sair (N)? ").upper()
     r = verificar(r)
     if r == True:
         print("Login ou Senha incorretos, tente novamente")
@@ -98,7 +98,7 @@ def cadastrarCliente():
     senhaConfirmar = input("Confirme sua senha: ")
     senha = confirmarSenhasIguais(senha, senhaConfirmar)
     idade = int(idade)
-    ClienteDAO.inserir_cliente(nome, email, senha, sobrenome, idade)
+    cliente.inserir_cliente(nome, email, senha, sobrenome, idade)
     menu()
 
 
@@ -108,7 +108,7 @@ def mudarSenha():
     senha = input("Nova Senha: ")
     senhaConfirmar = input("Confirmar Senha: ")
     senha = confirmarSenhasIguais(senha, senhaConfirmar)
-    ClienteDAO.mudar_senha(senha, email)
+    cliente.mudar_senha(senha, email)
     menu()
 
 def telaprincipal():
@@ -127,6 +127,7 @@ def telaprincipal():
     #3 ver ingressos
     elif r == 3:
         print("Falta adicionar ver ingressos")
+        telaprincipal()
     elif r == 4:
         menu()
     #deslogar que é voltar para o menu principal
